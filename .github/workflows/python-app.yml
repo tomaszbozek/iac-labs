@@ -29,19 +29,7 @@ jobs:
       uses: snok/install-poetry@v1
     - name: Install dependencies
       run: |
-        poetry install --no-root
-    - name: Lint
-      run: |
-        poetry run task lint
-    - name: Test with pytest
-      run: |
-        poetry run task test
-    - name: Security
-      run: |
-        poetry run task security
-    - name: Format
-      run: |
-        poetry run task formatter    
+        poetry install --no-root  
     - name: Cache build venv
       id: cached-poetry-dependencies
       uses: actions/cache@v3
@@ -55,6 +43,9 @@ jobs:
           matrix:
             os: [ubuntu-latest, windows-latest]
       runs-on: ${{ matrix.os }}
+      defaults:
+        run:
+          working-directory: ./example-app
       needs: build
       concurrency:
           group: second-group 
@@ -66,20 +57,23 @@ jobs:
           python-version: "3.10"
       - name: Install Poetry
         uses: snok/install-poetry@v1
-      - name: Lint
-        run: |
-          poetry run task lint        
       - name: load cache
         id: cached-poetry-dependencies
         uses: actions/cache@v3
         with:
           path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
-          key: ${{ runner.os }}-venv     
+          key: ${{ runner.os }}-venv    
+      - name: Lint
+        run: |
+          poetry run task lint           
   formatter:
       strategy:
           matrix:
             os: [ubuntu-latest, windows-latest]
       runs-on: ${{ matrix.os }}
+      defaults:
+        run:
+          working-directory: ./example-app
       needs: build
       concurrency:
           group: second-group 
@@ -91,20 +85,23 @@ jobs:
           python-version: "3.10"
       - name: Install Poetry
         uses: snok/install-poetry@v1
-      - name: Formatter
-        run: |
-          poetry run task formatter       
       - name: load cache
         id: cached-poetry-dependencies
         uses: actions/cache@v3
         with:
           path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
-          key: ${{ runner.os }}-venv      
+          key: ${{ runner.os }}-venv  
+      - name: Formatter
+        run: |
+          poetry run task formatter             
   security:
       strategy:
           matrix:
             os: [ubuntu-latest, windows-latest]
       runs-on: ${{ matrix.os }}
+      defaults:
+        run:
+          working-directory: ./example-app
       needs: build
       concurrency:
           group: second-group      
@@ -116,20 +113,23 @@ jobs:
           python-version: "3.10"
       - name: Install Poetry
         uses: snok/install-poetry@v1
-      - name: Security
-        run: |
-          poetry run task security       
       - name: load cache
         id: cached-poetry-dependencies
         uses: actions/cache@v3
         with:
           path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
-          key: ${{ runner.os }}-venv      
+          key: ${{ runner.os }}-venv    
+      - name: Security
+        run: |
+          poetry run task security           
   unittests:
         strategy:
             matrix:
               os: [ubuntu-latest, windows-latest]
         runs-on: ${{ matrix.os }}
+        defaults:
+          run:
+            working-directory: ./example-app
         needs: [lint, formatter, security]
         concurrency:
             group: third-group
@@ -141,12 +141,13 @@ jobs:
             python-version: "3.10"
         - name: Install Poetry
           uses: snok/install-poetry@v1
-        - name: Unittests
-          run: |
-            poetry run task test   
         - name: load cache
           id: cached-poetry-dependencies
           uses: actions/cache@v3
           with:
             path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
-            key: ${{ runner.os }}-venv       
+            key: ${{ runner.os }}-venv      
+        - name: Unittests
+          run: |
+            poetry run task test   
+           
