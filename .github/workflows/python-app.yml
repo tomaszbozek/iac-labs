@@ -35,7 +35,8 @@ jobs:
       id: cached-poetry-dependencies
       uses: actions/cache@v3
       with:
-        path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
+        #path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
+        path: /home/runner/.cache/pypoetry/virtualenv
         key: ${{ runner.os }}-venv  
     - name: Lint
       run: |
@@ -68,7 +69,8 @@ jobs:
         id: cached-poetry-dependencies
         uses: actions/cache@v3
         with:
-          path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
+          #path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
+          path: /home/runner/.cache/pypoetry/virtualenv
           key: ${{ runner.os }}-venv    
       - name: Lint
         run: |
@@ -99,11 +101,12 @@ jobs:
         id: cached-poetry-dependencies
         uses: actions/cache@v3
         with:
-          path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
+          #path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
+          path: /home/runner/.cache/pypoetry/virtualenv
           key: ${{ runner.os }}-venv  
       - name: Formatter
         run: |
-          poetry run task formatte 
+          poetry run task formatter
   security:
       strategy:
           matrix:
@@ -130,7 +133,8 @@ jobs:
         id: cached-poetry-dependencies
         uses: actions/cache@v3
         with:
-          path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
+          #path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
+          path: /home/runner/.cache/pypoetry/virtualenv
           key: ${{ runner.os }}-venv    
       - name: Security
         run: |
@@ -161,7 +165,8 @@ jobs:
           id: cached-poetry-dependencies
           uses: actions/cache@v3
           with:
-            path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
+            #path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
+            path: /home/runner/.cache/pypoetry/virtualenv
             key: ${{ runner.os }}-venv      
         - name: Unittests
           run: |
