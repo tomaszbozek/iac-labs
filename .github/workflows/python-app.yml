@@ -49,6 +49,7 @@ jobs:
           group: first-group        
   lint:
       runs-on: ubuntu-latest
+      needs: build
       concurrency:
           group: second-group 
       steps:
@@ -63,6 +64,7 @@ jobs:
           key: ${{ runner.os }}-venv      
   formatter:
       runs-on: ubuntu-latest
+      needs: build
       concurrency:
           group: second-group 
       steps:
@@ -77,6 +79,7 @@ jobs:
           key: ${{ runner.os }}-venv      
   security:
       runs-on: ubuntu-latest
+      needs: build
       concurrency:
           group: second-group      
       steps:
@@ -91,6 +94,7 @@ jobs:
           key: ${{ runner.os }}-venv       
   unittests:
         runs-on: ubuntu-latest
+        needs: [lint, formatter, security]
         concurrency:
             group: third-group
         steps:
