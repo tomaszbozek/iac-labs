@@ -38,22 +38,38 @@ jobs:
         poetry run task security
     - name: Format
       run: |
-        poetry run task formatter
+        poetry run task formatter     
     concurrency:
           group: first-group        
   lint:
       runs-on: ubuntu-latest
       concurrency:
           group: second-group 
+      steps:
+      - name: Lint
+        run: |
+          poetry run task lint    
   formatter:
       runs-on: ubuntu-latest
       concurrency:
           group: second-group 
+      steps:
+      - name: Formatter
+        run: |
+          poetry run task formatter       
   security:
       runs-on: ubuntu-latest
       concurrency:
           group: second-group      
+      steps:
+      - name: Security
+        run: |
+          poetry run task security       
   unittests:
         runs-on: ubuntu-latest
         concurrency:
             group: third-group
+        steps:
+        - name: Unittests
+          run: |
+            poetry run task test     
