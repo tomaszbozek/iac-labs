@@ -39,3 +39,21 @@ jobs:
     - name: Format
       run: |
         poetry run task formatter
+    concurrency:
+          group: first-group        
+  lint:
+      runs-on: ubuntu-latest
+      concurrency:
+          group: second-group 
+  formatter:
+      runs-on: ubuntu-latest
+      concurrency:
+          group: second-group 
+  security:
+      runs-on: ubuntu-latest
+      concurrency:
+          group: second-group      
+  unittests:
+        runs-on: ubuntu-latest
+        concurrency:
+            group: third-group
