@@ -38,7 +38,13 @@ jobs:
         poetry run task security
     - name: Format
       run: |
-        poetry run task formatter     
+        poetry run task formatter    
+    - name: Cache build venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v3
+      with:
+        path: /home/runner/.cache/pypoetry/virtualenvs
+        key: ${{ runner.os }}-venv    
     concurrency:
           group: first-group        
   lint:
@@ -49,6 +55,12 @@ jobs:
       - name: Lint
         run: |
           poetry run task lint    
+      - name: Cache build venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: /home/runner/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-venv      
   formatter:
       runs-on: ubuntu-latest
       concurrency:
@@ -57,6 +69,12 @@ jobs:
       - name: Formatter
         run: |
           poetry run task formatter       
+      - name: Cache build venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: /home/runner/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-venv      
   security:
       runs-on: ubuntu-latest
       concurrency:
@@ -65,6 +83,12 @@ jobs:
       - name: Security
         run: |
           poetry run task security       
+      - name: Cache build venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: /home/runner/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-venv       
   unittests:
         runs-on: ubuntu-latest
         concurrency:
@@ -72,4 +96,10 @@ jobs:
         steps:
         - name: Unittests
           run: |
-            poetry run task test     
+            poetry run task test   
+        - name: Cache build venv
+          id: cached-poetry-dependencies
+          uses: actions/cache@v3
+          with:
+            path: /home/runner/.cache/pypoetry/virtualenvs
+            key: ${{ runner.os }}-venv       
