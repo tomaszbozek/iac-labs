@@ -53,6 +53,14 @@ jobs:
       concurrency:
           group: second-group 
       steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Install Poetry Action
+        # uses: snok/install-poetry@93ada01c735cc8a383ce0ce2ae205a21c415379b
+        uses: snok/install-poetry@v1.3.4
       - name: Lint
         run: |
           poetry run task lint        
@@ -68,6 +76,14 @@ jobs:
       concurrency:
           group: second-group 
       steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Install Poetry Action
+        # uses: snok/install-poetry@93ada01c735cc8a383ce0ce2ae205a21c415379b
+        uses: snok/install-poetry@v1.3.4
       - name: Formatter
         run: |
           poetry run task formatter       
@@ -83,6 +99,14 @@ jobs:
       concurrency:
           group: second-group      
       steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Install Poetry Action
+        # uses: snok/install-poetry@93ada01c735cc8a383ce0ce2ae205a21c415379b
+        uses: snok/install-poetry@v1.3.4
       - name: Security
         run: |
           poetry run task security       
@@ -98,6 +122,14 @@ jobs:
         concurrency:
             group: third-group
         steps:
+        - uses: actions/checkout@v3
+        - name: Set up Python 3.10
+          uses: actions/setup-python@v3
+          with:
+            python-version: "3.10"
+        - name: Install Poetry Action
+          # uses: snok/install-poetry@93ada01c735cc8a383ce0ce2ae205a21c415379b
+          uses: snok/install-poetry@v1.3.4
         - name: Unittests
           run: |
             poetry run task test   
