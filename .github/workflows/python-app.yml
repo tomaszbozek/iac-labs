@@ -36,7 +36,10 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
-        key: ${{ runner.os }}-venv    
+        key: ${{ runner.os }}-venv  
+    - name: Lint
+      run: |
+        poetry run task lint    
     concurrency:
           group: first-group        
   lint:
