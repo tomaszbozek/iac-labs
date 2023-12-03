@@ -12,7 +12,10 @@ permissions:
   contents: read
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         working-directory: ./example-app
@@ -48,7 +51,10 @@ jobs:
     concurrency:
           group: first-group        
   lint:
-      runs-on: ubuntu-latest
+      strategy:
+          matrix:
+            os: [ubuntu-latest, windows-latest]
+      runs-on: ${{ matrix.os }}
       needs: build
       concurrency:
           group: second-group 
@@ -59,7 +65,6 @@ jobs:
         with:
           python-version: "3.10"
       - name: Install Poetry Action
-        # uses: snok/install-poetry@93ada01c735cc8a383ce0ce2ae205a21c415379b
         uses: snok/install-poetry@v1.3.4
       - name: Lint
         run: |
@@ -71,7 +76,10 @@ jobs:
           path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
           key: ${{ runner.os }}-venv     
   formatter:
-      runs-on: ubuntu-latest
+      strategy:
+          matrix:
+            os: [ubuntu-latest, windows-latest]
+      runs-on: ${{ matrix.os }}
       needs: build
       concurrency:
           group: second-group 
@@ -82,7 +90,6 @@ jobs:
         with:
           python-version: "3.10"
       - name: Install Poetry Action
-        # uses: snok/install-poetry@93ada01c735cc8a383ce0ce2ae205a21c415379b
         uses: snok/install-poetry@v1.3.4
       - name: Formatter
         run: |
@@ -94,7 +101,10 @@ jobs:
           path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
           key: ${{ runner.os }}-venv      
   security:
-      runs-on: ubuntu-latest
+      strategy:
+          matrix:
+            os: [ubuntu-latest, windows-latest]
+      runs-on: ${{ matrix.os }}
       needs: build
       concurrency:
           group: second-group      
@@ -105,7 +115,6 @@ jobs:
         with:
           python-version: "3.10"
       - name: Install Poetry Action
-        # uses: snok/install-poetry@93ada01c735cc8a383ce0ce2ae205a21c415379b
         uses: snok/install-poetry@v1.3.4
       - name: Security
         run: |
@@ -117,7 +126,10 @@ jobs:
           path: /home/runner/work/iac-labs/iac-labs/example-app/.venv
           key: ${{ runner.os }}-venv      
   unittests:
-        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+              os: [ubuntu-latest, windows-latest]
+        runs-on: ${{ matrix.os }}
         needs: [lint, formatter, security]
         concurrency:
             group: third-group
@@ -128,7 +140,6 @@ jobs:
           with:
             python-version: "3.10"
         - name: Install Poetry Action
-          # uses: snok/install-poetry@93ada01c735cc8a383ce0ce2ae205a21c415379b
           uses: snok/install-poetry@v1.3.4
         - name: Unittests
           run: |
