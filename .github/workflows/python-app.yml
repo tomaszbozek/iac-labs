@@ -40,9 +40,7 @@ jobs:
         key: ${{ runner.os }}-venv  
     - name: Lint
       run: |
-        poetry run task lint    
-    concurrency:
-          group: first-group        
+        poetry run task lint          
   lint:
       strategy:
           matrix:
@@ -51,9 +49,7 @@ jobs:
       defaults:
         run:
           working-directory: ./example-app
-      needs: build
-      concurrency:
-          group: second-group 
+      needs: build 
       steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.10
@@ -84,8 +80,6 @@ jobs:
         run:
           working-directory: ./example-app
       needs: build
-      concurrency:
-          group: second-group 
       steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.10
@@ -115,9 +109,7 @@ jobs:
       defaults:
         run:
           working-directory: ./example-app
-      needs: build
-      concurrency:
-          group: second-group      
+      needs: build     
       steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.10
@@ -148,8 +140,6 @@ jobs:
           run:
             working-directory: ./example-app
         needs: [lint, formatter, security]
-        concurrency:
-            group: third-group
         steps:
         - uses: actions/checkout@v3
         - name: Set up Python 3.10
